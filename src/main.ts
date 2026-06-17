@@ -11,7 +11,7 @@ async function bootstrap() {
     new ValidationPipe({
       whitelist: true, // remove propriedades que não estão no DTO
       forbidNonWhitelisted: true, // retorna um erro se o corpo da requisição contiver propriedades que não estão no DTO
-      transform: true, // transforma os dados da requisição para o tipo do DTO
+      transform: false, // transforma os dados da requisição para o tipo do DTO
     }),
   );
 

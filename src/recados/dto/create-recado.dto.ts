@@ -1,23 +1,21 @@
-import { IsNotEmpty, IsString, MinLength } from "class-validator";
+import { IsNotEmpty, IsString, MaxLength, MinLength } from 'class-validator';
 
 export class CreateRecadoDto {
-
-  @IsString({
-    message: 'O texto deve ser uma string',
-  })
-  @IsNotEmpty({
-    message: 'O texto é obrigatório',
-  })
-  @MinLength(3, {
-    message: 'O texto deve ter pelo menos 3 caracteres',
-  })
+  @IsString()
+  @IsNotEmpty()
+  @MinLength(5)
+  @MaxLength(255)
   readonly texto: string;
 
   @IsString()
   @IsNotEmpty()
+  @MinLength(2)
+  @MaxLength(50)
   readonly de: string;
-  
+
   @IsString()
   @IsNotEmpty()
+  @MinLength(2)
+  @MaxLength(50)
   readonly para: string;
 }
