@@ -1,11 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 // import { ConceitosManualModule } from './conceitos-manual/conceitos-manual.module';
-import { RecadosModule } from './recados/recados.module';
+import { RecadosModule } from './app/recados.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(RecadosModule);
-
 
   app.useGlobalPipes(
     new ValidationPipe({

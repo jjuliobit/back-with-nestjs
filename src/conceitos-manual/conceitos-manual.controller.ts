@@ -1,14 +1,24 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { ConceitosManualService } from './conceitos-manual.service';
-
 
 @Controller('conceitos-manual')
 export class ConceitosManualController {
-  constructor(private readonly conceitosManualService: ConceitosManualService) { }
+  constructor(
+    private readonly conceitosManualService: ConceitosManualService,
+  ) {}
 
   @Get()
   findAll(@Query() pagination: any) {
-    const {limit=10, offset=0} = pagination;
+    const { limit = 10, offset = 0 } = pagination;
     return `essa rota retorna todos os conceitos, limit: ${limit}, offset: ${offset}`;
   }
 
@@ -16,7 +26,7 @@ export class ConceitosManualController {
   findOne(@Param('id') id: string) {
     return `essa rota retorna o conceito manual com ID: ${id}`;
   }
-  
+
   @Post()
   create(@Body() body: any) {
     return body;
@@ -37,5 +47,4 @@ export class ConceitosManualController {
       message: 'conceito manual deletado com sucesso',
     };
   }
-
 }

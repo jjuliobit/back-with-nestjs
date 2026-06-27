@@ -39,7 +39,8 @@ export class RecadosController {
   findAll(@Query() pagination: any) {
     const { limit = 10, offset = 0 } = pagination;
     // return `Retorna todos os recados. Limit=${limit}, Offset=${offset}.`;
-    return this.recadosService.findAll();
+    const recados = this.recadosService.findAll();
+    return recados;
   }
 
   @Get(':id')
@@ -53,7 +54,10 @@ export class RecadosController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateRecadoDto: UpdateRecadoDto) {
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateRecadoDto: UpdateRecadoDto,
+  ) {
     return this.recadosService.update(id, updateRecadoDto);
   }
 
