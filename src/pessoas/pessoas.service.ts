@@ -43,8 +43,16 @@ export class PessoasService {
     return `This action returns a #${id} pessoa`;
   }
 
-  update(id: number, updatePessoaDto: UpdatePessoaDto) {
-    return `This action updates a #${id} pessoa`;
+  async update(id: number, updatePessoaDto: UpdatePessoaDto) {
+    const pessoaData = {
+      nome: updatePessoaDto?.nome,
+      passwordHash: updatePessoaDto?.password,
+    };
+    const pessoa = await this.pessoasRepository.preload({ id, ...pessoaData });
+    if (!pessoa) {
+      throw new NotFoundException('Pessoa não encontrada');
+    }
+    return await this.pessoasRepository.save(pessoa);
   }
 
   async remove(id: number) {
@@ -53,6 +61,6 @@ export class PessoasService {
       throw new NotFoundException('Pessoa não encontrada');
     }
     await this.pessoasRepository.remove(pessoa);
-    return;
+    return { message: 'Pessoa removida com sucesso' };
   }
 }
