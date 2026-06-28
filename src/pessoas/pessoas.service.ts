@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { ConflictException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { CreatePessoaDto } from './dto/create-pessoa.dto';
 import { UpdatePessoaDto } from './dto/update-pessoa.dto';
 import { Pessoa } from './entities/pessoa.entity';
@@ -30,8 +30,13 @@ export class PessoasService {
     }
   }
 
-  findAll() {
-    return `This action returns all pessoas`;
+  async findAll() {
+    const pessoas = await this.pessoasRepository.find({
+      order: {
+        id: 'desc',
+      },
+    });
+    return pessoas;
   }
 
   findOne(id: number) {
@@ -42,7 +47,12 @@ export class PessoasService {
     return `This action updates a #${id} pessoa`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} pessoa`;
+  async remove(id: number) {
+    const pessoa = await this.pessoasRepository.findOneBy({ id });
+    if (!pessoa) {
+      throw new NotFoundException('Pessoa não encontrada');
+    }
+    await this.pessoasRepository.remove(pessoa);
+    return;
   }
 }
