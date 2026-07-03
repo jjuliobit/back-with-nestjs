@@ -17,8 +17,7 @@ import { PessoasModule } from 'src/pessoas/pessoas.module';
       autoLoadEntities: true, // carrega entidades registradas com forFeature
       synchronize: true, // sincroniza com o DB. Nao deve ser usado em producao.
     }),
-    PessoasModule,
-    TypeOrmModule.forFeature([Recado]),
+    TypeOrmModule.forFeature([Recado]) , PessoasModule,
   ],
   controllers: [RecadosController],
   providers: [RecadosService],
