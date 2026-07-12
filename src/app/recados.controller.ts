@@ -10,7 +10,6 @@ import {
   Patch,
   Post,
   Query,
-  Req,
   UseInterceptors,
 } from '@nestjs/common';
 import { RecadosService } from './recados.service';
@@ -21,6 +20,7 @@ import { AddHeaderInterceptor } from 'src/common/interceptors/add-header.interce
 import { TimingConnectionInterceptor } from 'src/common/interceptors/timing-connection.interceptor';
 import { ErrorHandlingInterceptor } from 'src/common/interceptors/error-handling.interceptor';
 import { AuthTokenInterceptor } from 'src/common/interceptors/auth-token.interceptor';
+import { UrlParam } from 'src/common/params/url-param.decorator';
 
 // CRUD
 // Create -> POST -> Criar um recado
@@ -42,8 +42,8 @@ export class RecadosController {
   @UseInterceptors(TimingConnectionInterceptor, ErrorHandlingInterceptor)
   @HttpCode(HttpStatus.OK)
   @Get()
-  findAll(@Query() paginationDto: PaginationDto, @Req() req: Request) {
-    console.log('Usuário autenticado:', req['user']);
+  findAll(@Query() paginationDto: PaginationDto, @UrlParam() url: string) {
+    // console.log('Usuário autenticado:', req['user']);
     const recados = this.recadosService.findAll(paginationDto);
     return recados;
   }
