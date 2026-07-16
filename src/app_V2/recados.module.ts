@@ -7,6 +7,7 @@ import { PessoasModule } from 'src/pessoas/pessoas.module';
 import { SimpleMiddleware } from 'src/common/middlewares/simple.middleware';
 import { MyExceptionFilter } from 'src/common/filters/my-exception.filter';
 import { APP_FILTER } from '@nestjs/core';
+import { RecadosUtils } from './recados.utils';
 
 @Module({
   imports: [
@@ -26,6 +27,10 @@ import { APP_FILTER } from '@nestjs/core';
   controllers: [RecadosController],
   providers: [
     RecadosService,
+    {
+      provide: RecadosUtils,
+      useClass: RecadosUtils,
+    },
     {
       provide: APP_FILTER,
       useClass: MyExceptionFilter,
