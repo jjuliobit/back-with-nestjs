@@ -1,7 +1,8 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 // import { ConceitosManualModule } from './conceitos-manual/conceitos-manual.module';
-import { RecadosModule } from './app/recados.module';
+// import { RecadosModule } from './app/recados.module';
+import { RecadosModule } from './app_V2/recados.module'; // V2: sem auth e sem rotas protegidas
 import { ParseIntIdPipe } from './common/pipes/parse-int-id.pipe';
 
 async function bootstrap() {
