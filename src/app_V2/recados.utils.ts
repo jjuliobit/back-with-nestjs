@@ -8,3 +8,12 @@ export class RecadosUtils {
         return str.split('').reverse().join('');
     }
 }
+
+@Injectable()
+export class RecadosUtilsMock {
+    invertString(str: string): string {
+        // Invert a string
+        // Example: "hello" -> "olleh"
+        return 'bla bla bla';
+    }
+}
