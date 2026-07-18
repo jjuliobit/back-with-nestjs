@@ -4,12 +4,14 @@ import { UpdatePessoaDto } from './dto/update-pessoa.dto';
 import { Pessoa } from './entities/pessoa.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { RecadosUtils } from 'src/app_V2/recados.utils';
 
 @Injectable()
 export class PessoasService {
   constructor(
     @InjectRepository(Pessoa)
     private readonly pessoasRepository: Repository<Pessoa>,
+    private readonly recadosUtils: RecadosUtils,
   ) { }
 
   async create(createPessoaDto: CreatePessoaDto) {
@@ -31,6 +33,7 @@ export class PessoasService {
   }
 
   async findAll() {
+    console.log(this.recadosUtils.invertString('julio'));
     const pessoas = await this.pessoasRepository.find({
       order: {
         id: 'desc',

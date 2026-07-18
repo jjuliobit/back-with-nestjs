@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { RecadosController } from './recados.controller';
 import { RecadosService } from './recados.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -19,11 +19,17 @@ import { RecadosUtils } from './recados.utils';
       synchronize: true,
     }),
     TypeOrmModule.forFeature([Recado]),
-    PessoasModule,
+    forwardRef(() => PessoasModule),
   ],
   controllers: [RecadosController],
   providers: [
     RecadosService,
+    {
+      provide: RecadosUtils,
+      useClass: RecadosUtils,
+    }
+  ],
+  exports: [
     {
       provide: RecadosUtils,
       useClass: RecadosUtils,

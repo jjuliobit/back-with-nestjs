@@ -47,14 +47,15 @@ export class RecadosService {
 
   async findOne(id: number) {
     const recado = await this.recadosRepository.findOne({
-      where: {
-        id,
-      },
+      where: { id },
       relations: ['de', 'para'],
-      order: {
-        id: 'desc',
-      },
       select: {
+        id: true,
+        texto: true,
+        lido: true,
+        data: true,
+        createdAt: true,
+        updatedAt: true,
         de: {
           id: true,
           nome: true,
@@ -101,12 +102,28 @@ export class RecadosService {
   }
 
   async update(id: number, updateRecadoDto: UpdateRecadoDto) {
-    const recado = await this.findOne(id);
+    const recado = await this.recadosRepository.findOne({
+      where: { id },
+      relations: ['de', 'para'],
+    });
 
-    recado.texto = updateRecadoDto?.texto ?? recado?.texto;
-    recado.lido = updateRecadoDto?.lido ?? recado?.lido;
+    if (!recado) {
+      throw new NotFoundException('Recado não encontrado');
+    }
 
-    return this.recadosRepository.save(recado);
+    recado.texto = updateRecadoDto?.texto ?? recado.texto;
+    recado.lido = updateRecadoDto?.lido ?? recado.lido;
+
+    if (updateRecadoDto.deId) {
+      recado.de = await this.pessoasService.findOne(updateRecadoDto.deId);
+    }
+
+    if (updateRecadoDto.paraId) {
+      recado.para = await this.pessoasService.findOne(updateRecadoDto.paraId);
+    }
+
+    await this.recadosRepository.save(recado);
+    return this.findOne(id);
   }
 
   async remove(id: number) {
