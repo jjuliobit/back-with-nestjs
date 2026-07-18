@@ -10,7 +10,12 @@ import { RecadosModule } from 'src/app_V2/recados.module';
   forwardRef(() => RecadosModule),
   ],
   controllers: [PessoasController],
-  providers: [PessoasService],
+  providers: [PessoasService,
+    {
+      provide: 'SERVER_NAME',
+      useValue: 'NestJSMy name is NestJS',
+    }
+  ],
   exports: [PessoasService],
 })
 export class PessoasModule { }
