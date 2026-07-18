@@ -12,7 +12,12 @@ import { PessoasService } from './pessoas.service';
 import { CreatePessoaDto } from './dto/create-pessoa.dto';
 import { UpdatePessoaDto } from './dto/update-pessoa.dto';
 import { RecadosUtils } from 'src/app_V2/recados.utils';
-import { SERVER_NAME } from '../common/constants/server-name-constants';
+import { RegexProtocol } from 'src/common/regex/regex.protocol';
+import {
+  ONLY_LOWERCASE_LETTERS_REGEX,
+  REMOVE_SPACES_REGEX,
+  SERVER_NAME,
+} from 'src/app_V2/recados.constant';
 
 @Controller('pessoas')
 export class PessoasController {
@@ -20,7 +25,11 @@ export class PessoasController {
     private readonly pessoasService: PessoasService,
     private readonly recadosUtils: RecadosUtils,
     @Inject(SERVER_NAME)
-    private readonly nomeDaVariavel: string,
+    private readonly serverName: string,
+    @Inject(REMOVE_SPACES_REGEX)
+    private readonly removeSpacesRegex: RegexProtocol,
+    @Inject(ONLY_LOWERCASE_LETTERS_REGEX)
+    private readonly onlyLowercaseLettersRegex: RegexProtocol,
   ) {}
 
   @Post()
@@ -30,7 +39,9 @@ export class PessoasController {
 
   @Get()
   findAll() {
-    console.log(this.nomeDaVariavel);
+    console.log(this.removeSpacesRegex.execute(this.serverName));
+    console.log(this.onlyLowercaseLettersRegex.execute(this.serverName));
+    console.log(this.serverName);
     return this.pessoasService.findAll();
   }
 
