@@ -10,8 +10,7 @@ import {
   ParseIntPipe,
   Patch,
   Post,
-  Query,
-  UseInterceptors,
+  Query
 } from '@nestjs/common';
 import { RecadosService } from './recados.service';
 import { CreateRecadoDto } from './dto/create-recado.dto';
@@ -19,28 +18,29 @@ import { UpdateRecadoDto } from './dto/update-recado.dto';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { UrlParam } from 'src/common/params/url-param.decorator';
 import { RecadosUtils } from './recados.utils';
-import { ONLY_LOWERCASE_LETTERS_REGEX, REMOVE_SPACES_REGEX, SERVER_NAME } from 'src/app_V2/recados.constant';
-import { RegexProtocol } from 'src/common/regex/regex.protocol';
+import { RemoveSpacesRegex } from 'src/common/regex/remove.spaces.regex';
+import { REMOVE_SPACES_REGEX } from './recados.constant';
+import {
+  MY_DYNAMIC_CONFIG,
+  type MyDynamicModuleConfigs,
+} from './my-dynamic/my-dynamic.module';
 
 @Controller('recados-v2')
 export class RecadosController {
   constructor(
     private readonly recadosService: RecadosService,
     private readonly recadosUtils: RecadosUtils,
-    @Inject(SERVER_NAME)
-    private readonly serverName: string,
     @Inject(REMOVE_SPACES_REGEX)
-    private readonly removeSpacesRegex: RegexProtocol,
-    @Inject(ONLY_LOWERCASE_LETTERS_REGEX)
-    private readonly onlyLowercaseLettersRegex: RegexProtocol,
+    private readonly removeSpacesRegex: RemoveSpacesRegex,
+    @Inject(MY_DYNAMIC_CONFIG)
+    private readonly dynamicConfig: MyDynamicModuleConfigs,
   ) {}
 
   @HttpCode(HttpStatus.OK)
   @Get()
   findAll(@Query() paginationDto: PaginationDto, @UrlParam() url: string) {
-    console.log(this.removeSpacesRegex.execute(this.serverName));
-    console.log(this.onlyLowercaseLettersRegex.execute(this.serverName));
-    console.log(this.serverName);
+    console.log(this.removeSpacesRegex.execute('REMOVER ESPAÇOS'));
+    console.log('Dynamic config:', this.dynamicConfig);
     const recados = this.recadosService.findAll(paginationDto);
     return recados;
   }
