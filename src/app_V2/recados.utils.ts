@@ -1,12 +1,16 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, Scope } from '@nestjs/common';
 
-@Injectable()
+@Injectable({ scope: Scope.TRANSIENT })
 export class RecadosUtils {
-    invertString(str: string): string {
-        // Invert a string
-        // Example: "hello" -> "olleh"
-        return str.split('').reverse().join('');
-    }
+  private readonly instanceId = Math.random().toString(36).slice(2, 8);
+
+  getInstanceId(): string {
+    return this.instanceId;
+  }
+
+  invertString(str: string): string {
+    return str.split('').reverse().join('');
+  }
 }
 
 @Injectable()

@@ -10,7 +10,7 @@ import {
   ParseIntPipe,
   Patch,
   Post,
-  Query
+  Query,
 } from '@nestjs/common';
 import { RecadosService } from './recados.service';
 import { CreateRecadoDto } from './dto/create-recado.dto';
@@ -24,6 +24,9 @@ import {
   MY_DYNAMIC_CONFIG,
   type MyDynamicModuleConfigs,
 } from './my-dynamic/my-dynamic.module';
+// Scope.DEFAULT -> singleton (uma instância para toda a app)
+// Scope.REQUEST -> nova instância a cada requisição HTTP
+// Scope.TRANSIENT -> nova instância para cada classe que injeta o provider
 
 @Controller('recados-v2')
 export class RecadosController {
@@ -41,6 +44,7 @@ export class RecadosController {
   findAll(@Query() paginationDto: PaginationDto, @UrlParam() url: string) {
     console.log(this.removeSpacesRegex.execute('REMOVER ESPAÇOS'));
     console.log('Dynamic config:', this.dynamicConfig);
+    console.log('Controller RecadosUtils id:', this.recadosUtils.getInstanceId());
     const recados = this.recadosService.findAll(paginationDto);
     return recados;
   }

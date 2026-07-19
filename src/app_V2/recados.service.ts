@@ -22,6 +22,7 @@ export class RecadosService {
   }
 
   async findAll(paginationDto?: PaginationDto) {
+    console.log('Service RecadosUtils id:', this.recadosUtils.getInstanceId());
     const { limit = 10, offset = 0 } = paginationDto ?? {};
     const recados = await this.recadosRepository.find({
       take: limit,
